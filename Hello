@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello 🐯✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --up-maroon: #7B1113;
+      --up-gold: #F1C40F;
+      --forest-dark: #07150b;
+      --forest-mid: #0e2916;
+      --forest-light: #1b4726;
+      --card-bg: rgba(123, 17, 19, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(180deg, #030a05 0%, var(--forest-dark) 40%, var(--forest-mid) 100%);
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Forest Background Layers */
+    .forest-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Sun rays / light beams */
+    .light-rays {
+      position: absolute;
+      top: -20%;
+      left: 10%;
+      width: 80%;
+      height: 100%;
+      background: radial-gradient(ellipse at 50% 0%, rgba(241, 196, 15, 0.18), transparent 75%);
+      animation: pulseRays 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseRays {
+      0% { opacity: 0.3; }
+      100% { opacity: 0.7; }
+    }
+
+    /* Side Foreground Trees (Left & Right Only) */
+    .side-trees {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .tree-left {
+      position: absolute;
+      left: -50px;
+      bottom: 0;
+      width: 260px;
+      height: 100%;
+    }
+
+    .tree-right {
+      position: absolute;
+      right: -50px;
+      bottom: 0;
+      width: 260px;
+      height: 100%;
+    }
+
+    /* Falling Forest Leaves */
+    .leaf {
+      position: absolute;
+      top: -10%;
+      font-size: 1.4rem;
+      opacity: 0.7;
+      animation: fallLeaves linear infinite;
+      z-index: 3;
+    }
+
+    @keyframes fallLeaves {
+      0% {
+        transform: translateY(0) rotate(0deg) translateX(0);
+        opacity: 0.8;
+      }
+      50% {
+        transform: translateY(55vh) rotate(180deg) translateX(20px);
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg) translateX(-20px);
+        opacity: 0.1;
+      }
+    }
+
+    /* Fireflies effect */
+    .firefly {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: var(--up-gold);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--up-gold);
+      animation: floatFirefly 4s ease-in-out infinite alternate;
+      z-index: 3;
+    }
+
+    @keyframes floatFirefly {
+      0% { transform: translate(0, 0) scale(0.8); opacity: 0.2; }
+      100% { transform: translate(25px, -30px) scale(1.3); opacity: 0.9; }
+    }
+
+    /* Ground / Jungle Floor */
+    .ground {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: linear-gradient(180deg, transparent 0%, #040d06 90%);
+      z-index: 4;
+    }
+
+    /* Walking Tiger Animation Track */
+    .tiger-track {
+      position: absolute;
+      bottom: 20px;
+      left: -200px;
+      z-index: 5;
+      width: 180px;
+      height: 110px;
+      animation: walkAcross 16s linear infinite;
+    }
+
+    @keyframes walkAcross {
+      0% { left: -200px; transform: scaleX(1); }
+      48% { left: 100vw; transform: scaleX(1); }
+      50% { left: 100vw; transform: scaleX(-1); }
+      98% { left: -200px; transform: scaleX(-1); }
+      100% { left: -200px; transform: scaleX(1); }
+    }
+
+    .tiger-svg {
+      width: 100%;
+      height: 100%;
+      animation: tigerBob 0.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes tigerBob {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-5px); }
+    }
+
+    /* Tiger Leg Walking Animations */
+    .leg-f1 { animation: legMove1 0.4s ease-in-out infinite alternate; transform-origin: 130px 65px; }
+    .leg-f2 { animation: legMove2 0.4s ease-in-out infinite alternate; transform-origin: 118px 65px; }
+    .leg-b1 { animation: legMove2 0.4s ease-in-out infinite alternate; transform-origin: 65px 65px; }
+    .leg-b2 { animation: legMove1 0.4s ease-in-out infinite alternate; transform-origin: 52px 65px; }
+
+    @keyframes legMove1 {
+      0% { transform: rotate(-15deg); }
+      100% { transform: rotate(15deg); }
+    }
+
+    @keyframes legMove2 {
+      0% { transform: rotate(15deg); }
+      100% { transform: rotate(-15deg); }
+    }
+
+    /* Container & Cards */
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 90%;
+      max-width: 520px;
+      text-align: center;
+    }
+
+    /* Cards Styling */
+    .card, .quiz-box, .letter-box {
+      background: var(--card-bg);
+      border: 3px solid var(--up-gold);
+      border-radius: 24px;
+      padding: 35px 25px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(241, 196, 15, 0.3);
+      backdrop-filter: blur(8px);
+      transition: all 0.5s ease;
+    }
+
+    .greeting-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.8rem;
+      color: var(--up-gold);
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #f0e6d2;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    /* Action & Choice Buttons */
+    .action-btn {
+      background: linear-gradient(135deg, #F1C40F 0%, #d4ac0d 100%);
+      color: var(--up-maroon);
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.25rem;
+      padding: 14px 36px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(241, 196, 15, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .action-btn:hover {
+      transform: scale(1.06) translateY(-2px);
+      box-shadow: 0 8px 25px rgba(241, 196, 15, 0.6);
+    }
+
+    /* Quiz Screen Styles */
+    .quiz-box {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .quiz-question {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.4rem;
+      color: var(--up-gold);
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .choices-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .choice-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid var(--up-gold);
+      color: #ffffff;
+      padding: 12px 18px;
+      border-radius: 16px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    .choice-btn:hover {
+      background: var(--up-gold);
+      color: var(--up-maroon);
+      transform: scale(1.02);
+    }
+
+    .feedback-msg {
+      font-size: 0.95rem;
+      color: #ff6b6b;
+      font-weight: 700;
+      min-height: 24px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+
+    /* Next Arrow Button */
+    .next-arrow-btn {
+      display: none;
+      background: var(--up-gold);
+      color: var(--up-maroon);
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.2rem;
+      cursor: pointer;
+      margin: 10px auto 0 auto;
+      box-shadow: 0 4px 15px rgba(241, 196, 15, 0.5);
+      animation: bounceBtn 1.5s infinite alternate;
+    }
+
+    @keyframes bounceBtn {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-5px); }
+    }
+
+    /* Step 3: Final Confession Letter Box */
+    .letter-box {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      background: rgba(8, 24, 13, 0.95);
+      text-align: left;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--up-maroon);
+      color: var(--up-gold);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 6px 16px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      border: 1px solid var(--up-gold);
+    }
+
+    .letter-header {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.2rem;
+      color: var(--up-gold);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .letter-content {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #e8f5e9;
+      white-space: pre-line;
+      margin-bottom: 25px;
+    }
+
+    .signature {
+      text-align: right;
+      font-weight: 700;
+      color: var(--up-gold);
+      font-size: 1.1rem;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Forest & Side Trees Only -->
+  <div class="forest-bg" id="forestBg">
+    <div class="light-rays"></div>
+
+    <!-- Side Trees (Left & Right Only) -->
+    <div class="side-trees">
+      <svg class="tree-left" viewBox="0 0 200 400" preserveAspectRatio="xMinYMax meet">
+        <path d="M20,400 Q40,250 10,100 Q0,50 30,0 Q60,80 50,200 Q70,300 60,400 Z" fill="#061208"/>
+        <circle cx="40" cy="120" r="65" fill="#0c2e15" opacity="0.9"/>
+        <circle cx="70" cy="70" r="55" fill="#133d1d" opacity="0.9"/>
+        <circle cx="30" cy="40" r="45" fill="#1b5228" opacity="0.8"/>
+      </svg>
+
+      <svg class="tree-right" viewBox="0 0 200 400" preserveAspectRatio="xMaxYMax meet">
+        <path d="M180,400 Q160,250 190,100 Q200,50 170,0 Q140,80 150,200 Q130,300 140,400 Z" fill="#061208"/>
+        <circle cx="160" cy="120" r="65" fill="#0c2e15" opacity="0.9"/>
+        <circle cx="130" cy="70" r="55" fill="#133d1d" opacity="0.9"/>
+        <circle cx="170" cy="40" r="45" fill="#1b5228" opacity="0.8"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="ground"></div>
+
+  <!-- Animated Walking Tiger SVG -->
+  <div class="tiger-track">
+    <svg class="tiger-svg" viewBox="0 0 200 120">
+      <!-- Tail -->
+      <path d="M 45 55 Q 20 30 15 50 Q 10 70 25 65" stroke="#e67e22" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M 35 48 Q 22 35 18 48" stroke="#111111" stroke-width="3" fill="none"/>
+      
+      <!-- Back Legs -->
+      <g class="leg-b1">
+        <rect x="58" y="60" width="12" height="38" rx="6" fill="#d35400"/>
+        <ellipse cx="64" cy="98" rx="7" ry="4" fill="#d35400"/>
+      </g>
+      <g class="leg-b2">
+        <rect x="46" y="60" width="12" height="38" rx="6" fill="#e67e22"/>
+        <ellipse cx="52" cy="98" rx="7" ry="4" fill="#e67e22"/>
+      </g>
+
+      <!-- Tiger Body -->
+      <ellipse cx="95" cy="58" rx="48" ry="24" fill="#e67e22"/>
+      <ellipse cx="95" cy="68" rx="36" ry="12" fill="#fdfefe" opacity="0.85"/>
+
+      <!-- Front Legs -->
+      <g class="leg-f1">
+        <rect x="124" y="60" width="12" height="38" rx="6" fill="#d35400"/>
+        <ellipse cx="130" cy="98" rx="7" ry="4" fill="#d35400"/>
+      </g>
+      <g class="leg-f2">
+        <rect x="112" y="60" width="12" height="38" rx="6" fill="#e67e22"/>
+        <ellipse cx="118" cy="98" rx="7" ry="4" fill="#e67e22"/>
+      </g>
+
+      <!-- Body Tiger Stripes -->
+      <path d="M 70 40 Q 73 55 68 70" stroke="#111111" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <path d="M 85 36 Q 88 56 83 72" stroke="#111111" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <path d="M 100 36 Q 103 56 98 72" stroke="#111111" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <path d="M 115 40 Q 118 55 113 68" stroke="#111111" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+      <!-- Tiger Head -->
+      <circle cx="148" cy="42" r="20" fill="#e67e22"/>
+      <ellipse cx="160" cy="48" rx="9" ry="7" fill="#ffffff"/>
+      <polygon points="163,44 168,44 165,48" fill="#111111"/>
+      
+      <!-- Eyes & Whisker Points -->
+      <ellipse cx="152" cy="38" rx="3" ry="4" fill="#ffffff"/>
+      <circle cx="153" cy="38" r="2" fill="#111111"/>
+      <circle cx="158" cy="48" r="0.8" fill="#111111"/>
+      <circle cx="160" cy="50" r="0.8" fill="#111111"/>
+
+      <!-- Head Ears -->
+      <path d="M 136 28 L 144 16 L 150 28 Z" fill="#e67e22"/>
+      <path d="M 139 27 L 144 19 L 148 27 Z" fill="#ffffff"/>
+
+      <!-- Head Stripes -->
+      <path d="M 142 24 L 146 30" stroke="#111111" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M 148 23 L 150 29" stroke="#111111" stroke-width="2.5" stroke-linecap="round"/>
+      
+      <!-- UP Scarf Accent -->
+      <path d="M 132 50 Q 142 60 152 50" stroke="#7B1113" stroke-width="5" fill="none"/>
+    </svg>
+  </div>
+
+  <div class="container">
+    
+    <!-- STEP 1: Welcome Title -->
+    <div class="card" id="step1">
+      <div style="font-size: 3.5rem; margin-bottom: 10px;">🐯🌿</div>
+      <h1 class="greeting-title">Hello, Iya</h1>
+      <p class="subtitle">This website is dedicated to you, my future Thomasian🍃</p>
+      <button class="action-btn" onclick="startQuiz()">
+        <span>Open Me</span> 🐾
+      </button>
+    </div>
+
+    <!-- STEP 2: Quiz Screen -->
+    <div class="quiz-box" id="quizStep">
+      <div style="font-size: 2.5rem; margin-bottom: 10px;">✍️🐯</div>
+      <h2 class="quiz-question">Anong pinagkaiba ng "ng" at "nang"?</h2>
+      
+      <div class="choices-container">
+        <!-- Choice 1: Baligtad na kahulugan -->
+        <button class="choice-btn" onclick="checkAnswer(false, 'Mali po, baligtad! Hahaha 😜 Subukan uli!')">
+          A) Ang "ng" ay ginagamit para sa kilos o kung paano ginawa ang isang bagay, samantalang ang "nang" ay para sa pagmamay-ari o layon ng pandiwa.
+        </button>
+
+        <!-- Choice 2: Tamang sagot -->
+        <button class="choice-btn" onclick="checkAnswer(true, 'Tama! Magaling! 🎉 Click the button below!')">
+          B) Ang "ng" ay ginagamit kapag sumasagot sa tanong na "ano" o "sino" (pagmamay-ari/layon), samantalang ang "nang" ay ginagamit bilang pangkabit ng pandiwa o pagsagot sa "paano/kailan".
+        </button>
+
+        <!-- Choice 3: Ewan option -->
+        <button class="choice-btn" onclick="checkAnswer(false, 'Aba, huwag sumuko! May magagawa tayo! 😂 Pili ka uli!')">
+          C) Ewan, wala tayong magagawa
+        </button>
+
+        <!-- Choice 4: Cute option -->
+        <button class="choice-btn" onclick="checkAnswer(false, 'Aww thank you! Kaso kailangan mo muna makuha ang tamang sagot 😜✨')">
+          D) Cute si sir Jamsen
+        </button>
+      </div>
+
+      <div class="feedback-msg" id="feedback"></div>
+      <button class="next-arrow-btn" id="nextBtn" onclick="openConfession()">Next ➔</button>
+    </div>
+
+    <!-- STEP 3: Final Confession Letter -->
+    <div class="letter-box" id="step2">
+      <div style="text-align: center;">
+        <span class="badge">To: Iya 🐯</span>
+      </div>
+      <h2 class="letter-header">🐯</h2>
+      
+      <div class="letter-content" id="letterText">
+        Hi, Iyang
+
+        I'm battling with my self whether to confess my feelings or not. I really really like you, okay? I'm good with words, at writing, singing, drawing, expressing myself but whenever I am with you I can't even tell you how I really feel about you. 3 simple words, "I like you" yet I can barely say it. I know that you already know na gusto kita, nung una pa lang alam kong alam mo na. Hindi ka rin naman manhid para hindi iyun mapansin pero ni isang beses I haven't told you directly that I really do like you. I'm scared of ruining what we are right now, I am happy and content with what is going on with us ngayon pero I feel that I want to be a person that you would want to be with and I want to be worthy of it. I want to figure out what love really is with you, and I think little by little I am figuring it out. I don't just think that I'm falling for you, I am falling for you. I don't know, it just started with a simple crush pero before pa man non matagal na kitang ina-admire. I am very happy that even though we did not interact much back then I still got to greet you on your birthday and talk to you before. I love you for who you are and not just because of kung anong ipinapakita mo sa akin. I've liked you since I first saw you. Maraming tao sa paligid ko pero siguradong nasa iyo ang tingin ng mga mata ko. You shined the brightest amongst anyone else. Namamangha ako kasi sobrang galing mo sa lahat ng bagay halimbawa na lang sa Math, sa leadership, sa writing, sa lahat na. Nakakaproud, namamangha ako ng sobra at alam ko ring kayang-kaya mo ipasa 'yung exam sa UST/DLSU. I'm very very proud of what you'become right now kasi kahit na minsan napapagod ka na nakakayanan mo pa rin and you're not giving up kaya whenever you get the chance para makapagpahinga please take it, huwag mo masyado papagurin sarili mo. In a world that is full of chaos, with you everything's at peace. Even a day that is boring and plain you make it very special—effortless, you just do with simply being there. In a world that is full of uncertainty, I am a hundred and six percent certain that I still want to know you more and more and more even in days that you would just have to repeat what you like to the point that I already know every single thing about you—hinding-hindi ako magsasawang kilalanin ka nang kilalanin, kahit sa mundong puno ng pagbabago makikibaka ako. Hindi ko alam kung saan patungo ang lahat ng ito dahil hindi naman natin hawak ang hinaharap pero sana'y pagbigyan mo ako at sana hindi tayo magdrift apart. Hindi ako nagmamadali, gaya nga ng sinabi ko gusto ko pang kilalanin ka. I don't want you to feel uncomfortable at makaramdam ng mga bagay na ayaw mo, kaya please tell me if hindi ka okay sa mga sinasabi ko or kahit ano, okich? I know that you told me na kapag ayaw mo hindi mo naman pinipilit sarili mo pero ayun. To be honest wala namang exact reason why I am falling for you, ikaw lang kasi. Gusto kita sa lahat ng pagkakataon na mayroon, sa tuwing malungkot, masaya, galit, naiiyak ka, sa kahit ano. Cute mo, ayun lang.
+      </div>
+
+      <div class="signature">
+        — Future Eran 🦏
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Create background forest leaves & fireflies
+    const forestBg = document.getElementById('forestBg');
+    const leafIcons = ['🌿', '🍃', '🌱', '✨', '🐾'];
+
+    for (let i = 0; i < 22; i++) {
+      const leaf = document.createElement('div');
+      leaf.className = 'leaf';
+      leaf.innerText = leafIcons[Math.floor(Math.random() * leafIcons.length)];
+      leaf.style.left = Math.random() * 100 + 'vw';
+      leaf.style.animationDuration = (Math.random() * 6 + 6) + 's';
+      leaf.style.animationDelay = (Math.random() * 5) + 's';
+      forestBg.appendChild(leaf);
+    }
+
+    for (let i = 0; i < 16; i++) {
+      const firefly = document.createElement('div');
+      firefly.className = 'firefly';
+      firefly.style.left = Math.random() * 100 + 'vw';
+      firefly.style.top = Math.random() * 80 + 'vh';
+      firefly.style.animationDelay = (Math.random() * 3) + 's';
+      forestBg.appendChild(firefly);
+    }
+
+    // Step 1 -> Step 2 (Quiz Screen)
+    function startQuiz() {
+      const s1 = document.getElementById('step1');
+      const quiz = document.getElementById('quizStep');
+
+      s1.style.opacity = '0';
+      s1.style.transform = 'translateY(-20px)';
+      
+      setTimeout(() => {
+        s1.style.display = 'none';
+        quiz.style.display = 'block';
+        setTimeout(() => {
+          quiz.style.opacity = '1';
+          quiz.style.transform = 'translateY(0)';
+        }, 50);
+      }, 400);
+    }
+
+    // Check Quiz Answer
+    function checkAnswer(isCorrect, message) {
+      const feedback = document.getElementById('feedback');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      if (isCorrect) {
+        feedback.style.color = '#2ecc71';
+        feedback.innerText = message;
+        nextBtn.style.display = 'inline-block';
+      } else {
+        feedback.style.color = '#ff6b6b';
+        feedback.innerText = message;
+        nextBtn.style.display = 'none';
+      }
+    }
+
+    // Step 2 (Quiz) -> Step 3 (Letter Box)
+    function openConfession() {
+      const quiz = document.getElementById('quizStep');
+      const s2 = document.getElementById('step2');
+
+      quiz.style.opacity = '0';
+      quiz.style.transform = 'translateY(-20px)';
+
+      setTimeout(() => {
+        quiz.style.display = 'none';
+        s2.style.display = 'block';
+        setTimeout(() => {
+          s2.style.opacity = '1';
+          s2.style.transform = 'translateY(0) scale(1)';
+        }, 50);
+      }, 400);
+    }
+  </script>
+</body>
+</html>
